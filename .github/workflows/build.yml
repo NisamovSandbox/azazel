@@ -23,7 +23,7 @@ jobs:
                          --mirror-bootstrap "http://deb.debian.org/debian/" \
                          --mirror-binary "http://deb.debian.org/debian/" \
                          --security false \
-                         --updates false \
+                         --parent-security false \
                          --binary-images iso-hybrid \
                          --architectures amd64 \
                          --archive-areas "main contrib non-free non-free-firmware" \
