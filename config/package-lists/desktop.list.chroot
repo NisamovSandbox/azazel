@@ -1,0 +1,26 @@
+# Entorno
+task-xfce-desktop
+xfce4-goodies
+lightdm
+xorg
+
+# Herramientas de sistema
+sudo
+network-manager-gnome
+user-setup
+live-boot
+live-config
+live-config-systemd
+
+# Drivers y Firmware
+linux-image-amd64
+live-task-localisation
+non-free-firmware
+firmware-linux-free
+firmware-linux-nonfree
+
+# Otros
+firefox-esr
+vlc
+mousepad
+neofetch

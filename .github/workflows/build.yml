@@ -1,0 +1,31 @@
+name: Build ISO
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y live-build debootstrap squashfs-tools
+
+      - name: Configure and Build
+        run: |
+          sudo chmod -R +x config/hooks/
+          sudo lb clean --all
+          sudo lb config --distribution trixie \
+                         --binary-images iso-hybrid \
+                         --architectures amd64 \
+                         --archive-areas "main contrib non-free non-free-firmware" \
+                         --debian-installer live
+          sudo lb build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MiDistro-ISO
+          path: "*.iso"
