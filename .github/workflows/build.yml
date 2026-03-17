@@ -24,6 +24,10 @@ jobs:
                          --binary-images iso-hybrid \
                          --architectures amd64 \
                          --debian-installer live
+          mkdir -p config/archives
+          echo "deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware" > config/archives/debian.list.chroot
+          echo "deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware" >> config/archives/debian.list.chroot
+          export LB_SECURITY="false"
           sudo lb build
 
       - name: Subida de ISO
