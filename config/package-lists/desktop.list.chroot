@@ -1,26 +1,25 @@
-# Entorno
-task-xfce-desktop
-xfce4-goodies
-lightdm
+# Paquetes mínimos para entorno de escritorio XFCE
 xorg
+lightdm
+xfce4
+xfce4-goodies
+network-manager
+firefox-esr
 
-# Herramientas de sistema
-sudo
-network-manager-gnome
-user-setup
-live-boot
-live-config
-live-config-systemd
+# Opcionales y utilidades
+vlc
+mousepad
+neofetch
 
-# Drivers y Firmware
+# Drivers y firmware
 linux-image-amd64
-live-task-localisation
 non-free-firmware
 firmware-linux-free
 firmware-linux-nonfree
 
-# Otros
-firefox-esr
-vlc
-mousepad
-neofetch
+# Herramientas live y configuración
+sudo
+user-setup
+live-boot
+live-config
+live-config-systemd
