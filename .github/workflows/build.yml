@@ -1,4 +1,4 @@
-name: Build ISO
+name: Contruccion azazel.iso
 on: [push]
 
 jobs:
@@ -8,12 +8,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Instalar dependencias
         run: |
           sudo apt-get update
           sudo apt-get install -y live-build debootstrap squashfs-tools debian-archive-keyring
 
-      - name: Configure and Build
+      - name: Configurar y construir
         run: |
           sudo chmod -R +x config/hooks/
           sudo lb clean --all
@@ -22,14 +22,16 @@ jobs:
                          --parent-mirror-binary "http://deb.debian.org/debian/" \
                          --mirror-bootstrap "http://deb.debian.org/debian/" \
                          --mirror-binary "http://deb.debian.org/debian/" \
+                         --security false \
+                         --updates false \
                          --binary-images iso-hybrid \
                          --architectures amd64 \
                          --archive-areas "main contrib non-free non-free-firmware" \
                          --debian-installer live
           sudo lb build
 
-      - name: Upload Artifact
+      - name: Subida de ISO
         uses: actions/upload-artifact@v4
         with:
-          name: MiDistro-ISO
+          name: azazel
           path: "*.iso"
