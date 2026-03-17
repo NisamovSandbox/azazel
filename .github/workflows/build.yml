@@ -18,15 +18,11 @@ jobs:
           sudo chmod -R +x config/hooks/
           sudo lb clean --all
           sudo lb config --distribution trixie \
-                         --parent-mirror-bootstrap "http://deb.debian.org/debian/" \
-                         --parent-mirror-binary "http://deb.debian.org/debian/" \
                          --mirror-bootstrap "http://deb.debian.org/debian/" \
                          --mirror-binary "http://deb.debian.org/debian/" \
-                         --security false \
-                         --parent-security false \
+                         --archive-areas "main contrib non-free non-free-firmware" \
                          --binary-images iso-hybrid \
                          --architectures amd64 \
-                         --archive-areas "main contrib non-free non-free-firmware" \
                          --debian-installer live
           sudo lb build
 
