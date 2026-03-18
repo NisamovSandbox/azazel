@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 WALLPAPER_PATH="/usr/share/images/desktop-base/background.png"
 mkdir -p /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/
 
@@ -8,12 +9,13 @@ cat <<EOF > /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
   <property name="backdrop" type="empty">
     <property name="screen0" type="empty">
       <property name="monitor0" type="empty">
-        <property name="image-path" type="string" value="$WALLPAPER_PATH"/>
-        <property name="last-image" type="string" value="$WALLPAPER_PATH"/>
+        <property name="workspace0" type="empty">
+          <property name="last-image" type="string" value="$WALLPAPER_PATH"/>
+        </property>
       </property>
     </property>
   </property>
 </channel>
 EOF
 
-chmod +x /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+chmod 644 /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml

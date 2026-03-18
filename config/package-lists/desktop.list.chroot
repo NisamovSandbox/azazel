@@ -1,4 +1,4 @@
-# Paquetes mínimos para entorno de escritorio XFCE
+# Entorno gráfico XFCE
 xorg
 lightdm
 xfce4
@@ -6,18 +6,17 @@ xfce4-goodies
 network-manager
 firefox-esr
 
-# Opcionales y utilidades
+# Multimedia y utilidades
 vlc
 mousepad
-neofetch
+fastfetch
 
-# Drivers y firmware
+# Kernel y firmware (correcto en Debian)
 linux-image-amd64
-non-free-firmware
-firmware-linux-free
+firmware-linux
 firmware-linux-nonfree
 
-# Herramientas live y configuración
+# Sistema live
 sudo
 user-setup
 live-boot
