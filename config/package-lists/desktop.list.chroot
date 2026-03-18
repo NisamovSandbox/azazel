@@ -1,4 +1,4 @@
-# Entorno XFCE
+# Paquetes mínimos para entorno de escritorio XFCE
 xorg
 lightdm
 xfce4
@@ -6,21 +6,17 @@ xfce4-goodies
 network-manager
 firefox-esr
 
-# Multimedia y utilidades
+# Opcionales y utilidades
 vlc
 mousepad
-fastfetch
+neofetch
 
-# Kernel y firmware
+# Drivers y firmware
 linux-image-amd64
-
-firmware-linux
+firmware-linux-free
 firmware-linux-nonfree
-firmware-misc-nonfree
-intel-microcode
-amd64-microcode
 
-# Sistema live
+# Herramientas live y configuración
 sudo
 user-setup
 live-boot
