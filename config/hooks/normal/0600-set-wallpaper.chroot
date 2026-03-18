@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 WALLPAPER_PATH="/usr/share/images/desktop-base/background.png"
-mkdir -p /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/
+sudo mkdir -p /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/
 
 cat <<EOF > /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -18,4 +18,8 @@ cat <<EOF > /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 </channel>
 EOF
 
-chmod 644 /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+sudo chmod 644 /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+
+sudo mkdir -p /root/.config/xfce4/xfconf/xfce-perchannel-xml/
+sudo cp /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml \
+   /root/.config/xfce4/xfconf/xfce-perchannel-xml/

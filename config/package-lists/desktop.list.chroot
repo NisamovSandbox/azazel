@@ -1,4 +1,4 @@
-# Entorno gráfico XFCE
+# Entorno XFCE
 xorg
 lightdm
 xfce4
@@ -11,10 +11,13 @@ vlc
 mousepad
 fastfetch
 
-# Kernel y firmware (correcto en Debian)
+# Kernel y firmware
 linux-image-amd64
 firmware-linux
 firmware-linux-nonfree
+firmware-misc-nonfree
+intel-microcode
+amd64-microcode
 
 # Sistema live
 sudo
