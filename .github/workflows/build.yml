@@ -26,7 +26,8 @@ jobs:
         run: |
           set -e
           sudo chmod -R +x config/hooks/ || true
-          sudo lb clean --all
+          sudo lb clean --purge
+          sudo rm -rf cache tmp
 
           sudo lb config \
             --distribution trixie \
