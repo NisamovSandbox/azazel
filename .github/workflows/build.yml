@@ -35,8 +35,28 @@ jobs:
             sudo lb build && break || sleep 10; \
           done
 
-      - name: Subida de ISO
-        uses: actions/upload-artifact@v4
+
+      - name: Buscar ISO generado
+        run: |
+          ls -lh *.iso || true
+
+      - name: Crear release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: azazel
-          path: "*.iso"
+          tag_name: azazel-${{ github.run_number }}
+          release_name: Azazel ISO ${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Subir ISO al release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./live-image-amd64.hybrid.iso
+          asset_name: azazel-${{ github.run_number }}.iso
+          asset_content_type: application/octet-stream
