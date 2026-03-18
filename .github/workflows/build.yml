@@ -32,11 +32,14 @@ jobs:
             --distribution trixie \
             --mirror-bootstrap "http://deb.debian.org/debian/" \
             --mirror-binary "http://deb.debian.org/debian/" \
+            --mirror-chroot-security "http://security.debian.org/debian-security/" \
+            --mirror-binary-security "http://security.debian.org/debian-security/" \
             --archive-areas "main contrib non-free non-free-firmware" \
             --binary-images iso-hybrid \
             --architectures amd64 \
             --debian-installer none \
-            --apt-secure false
+            --apt-secure false \
+            --security true
 
       - name: Construir ISO
         run: |
