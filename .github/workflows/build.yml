@@ -1,40 +1,41 @@
-name: Build Debian Live ISO
+name: Build Live ISO
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  build-iso:
+  build:
     runs-on: ubuntu-latest
+    env:
+      LB_CONFIG: config
+      ISO_NAME: "azazel"
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Establecer dependencias
+      - name: Dependencias
         run: |
-          sudo apt update
-          sudo apt install -y live-build cdebootstrap debootstrap qemu-utils
+          sudo apt-get update
+          sudo apt-get install -y debootstrap squashfs-tools xorriso isolinux syslinux-utils live-build
 
-      - name: Limpiar ISO previa
-        run: sudo lb clean || true
-
-      - name: Build ISO
-        run: sudo lb build
-
-      - name: Renombrar ISO
+      - name: Dir Configuracion
         run: |
-          if [ -f binary.hybrid.iso ]; then
-            mv binary.hybrid.iso azazel.iso
-          else
-            echo "ISO not found!" && exit 1
-          fi
+          mkdir -p config/binary
+          echo "$ISO_NAME" > config/binary/image_name
+          echo "bookworm" > config/distribution
+          echo "amd64" > config/architecture
 
-      - name: Generacion ISO
+      - name: Generar iso
+        run: |
+          sudo lb clean
+          sudo lb build
+
+      - name: Upload ISO to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          files: azazel.iso
+          files: live-image-amd64.hybrid.iso
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
