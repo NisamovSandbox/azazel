@@ -34,7 +34,7 @@ jobs:
           done
 
       - name: Subida de ISO
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: azazel
           path: "*.iso"
