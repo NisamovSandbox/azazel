@@ -1,9 +1,0 @@
-#!/bin/sh
-set -e
-mkdir -p /etc/lightdm/lightdm.conf.d/
-cat <<EOF > /etc/lightdm/lightdm.conf.d/50-autologin.conf
-[Seat:*]
-autologin-user=azazel
-autologin-user-timeout=0
-user-session=xfce
-EOF

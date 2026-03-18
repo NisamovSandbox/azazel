@@ -1,0 +1,40 @@
+name: Build Debian Live ISO
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Establecer dependencias
+        run: |
+          sudo apt update
+          sudo apt install -y live-build cdebootstrap debootstrap qemu-utils
+
+      - name: Limpiar ISO previa
+        run: sudo lb clean || true
+
+      - name: Build ISO
+        run: sudo lb build
+
+      - name: Renombrar ISO
+        run: |
+          if [ -f binary.hybrid.iso ]; then
+            mv binary.hybrid.iso azazel.iso
+          else
+            echo "ISO not found!" && exit 1
+          fi
+
+      - name: Generacion ISO
+        uses: softprops/action-gh-release@v1
+        with:
+          files: azazel.iso
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
