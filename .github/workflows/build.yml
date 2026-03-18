@@ -1,4 +1,5 @@
-name: Contruccion azazel.iso
+name: Construccion azazel.iso
+
 on:
   push:
   workflow_dispatch:
@@ -6,40 +7,54 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Instalar dependencias (con reintentos)
+      - name: Instalar dependencias
         run: |
           set -e
-          for i in 1 2 3; do \
-            sudo apt-get update && \
-            sudo apt-get install -y live-build debootstrap squashfs-tools debian-archive-keyring && break || sleep 10; \
-          done
-          sudo sed -i '/ubuntu/d' /etc/apt/sources.list || true
-          sudo rm -f /etc/apt/sources.list.d/*ubuntu* || true
+          sudo apt-get update
+          sudo apt-get install -y \
+            live-build debootstrap squashfs-tools debian-archive-keyring \
+            xorriso isolinux syslinux syslinux-efi \
+            grub-pc-bin grub-efi-amd64-bin \
+            mtools dosfstools
 
-      - name: Configurar y construir (con reintentos)
+      - name: Configurar live-build
         run: |
           set -e
-          sudo chmod -R +x config/hooks/
+          sudo chmod -R +x config/hooks/ || true
           sudo lb clean --all
-          sudo lb config --distribution trixie \
-                         --mirror-bootstrap "http://deb.debian.org/debian/" \
-                         --mirror-binary "http://deb.debian.org/debian/" \
-                         --archive-areas "main contrib non-free non-free-firmware" \
-                         --binary-images iso-hybrid \
-                         --architectures amd64 \
-                         --debian-installer live
-          export LB_SECURITY="false"
-          for i in 1 2 3; do \
-            sudo lb build && break || sleep 10; \
-          done
 
-      - name: Listar todos los archivos tras build
+          sudo lb config \
+            --distribution trixie \
+            --mirror-bootstrap "http://deb.debian.org/debian/" \
+            --mirror-binary "http://deb.debian.org/debian/" \
+            --archive-areas "main contrib non-free non-free-firmware" \
+            --binary-images iso-hybrid \
+            --architectures amd64 \
+            --debian-installer none \
+            --apt-secure false
+
+      - name: Construir ISO
         run: |
-          ls -lhR .
+          set -e
+          sudo lb build
+
+      - name: Verificar ISO generada
+        run: |
+          set -e
+          find . -name "*.iso" -ls
+          ISO_PATH=$(find . -type f -name "*.iso" | head -n1)
+
+          if [ -z "$ISO_PATH" ]; then
+            echo "[ERROR] No se ha generado ninguna ISO"
+            exit 1
+          fi
+
+          echo "ISO_PATH=$ISO_PATH" >> $GITHUB_ENV
 
       - name: Crear release
         id: create_release
@@ -58,6 +73,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $(find . -type f -name '*.iso' | head -n1)
+          asset_path: ${{ env.ISO_PATH }}
           asset_name: azazel-${{ github.run_number }}.iso
           asset_content_type: application/octet-stream
