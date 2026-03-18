@@ -1,5 +1,7 @@
 name: Contruccion azazel.iso
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
